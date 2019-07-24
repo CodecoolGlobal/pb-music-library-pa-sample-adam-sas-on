@@ -17,6 +17,11 @@ def time_str_to_minutes(timestr):
     return tm[0]
 #
 
+def time_minutes_to_str(timemin):
+    mins,secs = divmod(timemin*60, 60)
+    return "{0:02.0f}:{1:02.0f}".format(mins, secs)
+#
+
 def get_albums_by_genre(albums, genre):
     """
     Get albums by genre
@@ -75,7 +80,14 @@ def get_total_albums_length(albums):
 #
 
 def get_genre_stats(albums):
-    return []
+    genres_dict = {}
+    for album in albums:
+        if len(album) < 4:
+            continue
+
+        genres_dict[album[3]] = genres_dict[album[3]] + 1 if album[3] in genres_dict else 1
+
+    return genres_dict
 #
 
 
@@ -83,8 +95,8 @@ def get_last_oldest(albums):
     return []
 #
 
-def get_last_oldest_of_genre(albums):
-    return []
+def get_last_oldest_of_genre(albums, genre):
+    album = []
 #
 
 #/ - - - - - -
