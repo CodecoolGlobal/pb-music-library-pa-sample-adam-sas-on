@@ -25,9 +25,6 @@ class Options:
 		self.indexes.append(0)
 		self.states.append(None)
 	#
-	def is_bold(self, whch):
-		return True if whch == self.current else False
-	#
 	def scr_print(self, stdscr, first_line=2):
 		i = 0
 		line_no = first_line
@@ -51,6 +48,9 @@ class Options:
 		else:
 			stdscr.addstr(line_no, 0, "- {}".format(self.options[self.current]), curses.A_BOLD)
 	#
+	def current_element(self):
+		return self.options[self.current]
+	#
 	def move_up(self):
 		if self.current > 0:
 			self.current -= 1
@@ -69,7 +69,10 @@ class Options:
 			return
 
 		self.indexes[self.current] += 1
+
 		line_no = first_line + self.current
+		stdscr.move(line_no, 0)
+		stdscr.clrtoeol() # erase from cursor to the end of the line;
 		stdscr.addstr(line_no, 0, "- {}: {}".format(self.options[self.current], opts[index+1]), curses.A_BOLD)
 	#
 	def print_prev_element(self, stdscr, first_line=2):
@@ -82,11 +85,17 @@ class Options:
 			return
 
 		self.indexes[self.current] -= 1
+
 		line_no = first_line + self.current
+		stdscr.move(line_no, 0)
+		stdscr.clrtoeol() # erase from cursor to the end of the line;
 		stdscr.addstr(line_no, 0, "- {}: {}".format(self.options[self.current], opts[index-1]), curses.A_BOLD)
 	#
 	def is_exit(self):
 		return False if self.current < len(self.options) - 1 else True
+	#
+	def length(self):
+		return len(self.options)
 	#
 #
 
@@ -131,9 +140,27 @@ def menu(stdscr, albums):
 		elif c==curses.KEY_RIGHT:
 			options.print_next_element(stdscr, 2)
 		elif c==curses.KEY_LEFT:
-			options.print_prev_element(stdscr, 2)
-		#elif (c==curses.KEY_ENTER or c==10) and cmd == 0:
-		#	pass
+			options.print_prev_element(stdscr)
+		elif (c==curses.KEY_ENTER or c==10) and options.is_exit() == False:
+			option = options.current_element()
+			if option == "Get longest album":
+				album = music_reports.get_longest_album(albums)
+				stdscr.addstr(3+options.length(), 1, "{}".format(album) )
+			elif option == "Get total albums length":
+				time_tot = music_reports.get_total_albums_length(albums)
+				stdscr.addstr(3+options.length(), 1, "total time = {}".format(time_tot) )
+			elif option == "Get genre stats":
+#get_genre_stats(albums)
+				pass
+			elif option == "Get last oldest":
+				pass
+			elif option == "Get last oldest of genre":
+				pass
+			elif option == "Get last oldest of genre":
+				pass
+			elif option == "Get albums by genre":
+#get_albums_by_genre(albums, genre)
+				pass
 		elif (c==curses.KEY_ENTER or c==10) and options.is_exit():
 			run = False
 
