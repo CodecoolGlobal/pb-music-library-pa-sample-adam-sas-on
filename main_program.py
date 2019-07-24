@@ -121,7 +121,6 @@ def menu(stdscr, albums):
 
 
 	run = True if len(albums) > 0 else False
-	cmd = 0
 
 	stdscr.addstr(0, 4, "Music library.")
 	options = Options()
@@ -151,12 +150,17 @@ def menu(stdscr, albums):
 			options.print_prev_element(stdscr)
 		elif (c==curses.KEY_ENTER or c==10) and options.is_exit() == False:
 			option = options.current_element()
+			line_current = 3 + options.length()
+			stdscr.move(line_current, 0)
+			stdscr.clrtoeol() # erase from cursor to the end of the line;
+
+
 			if option == "Get longest album":
 				album = music_reports.get_longest_album(albums)
-				stdscr.addstr(3+options.length(), 1, "{}".format(album) )
+				stdscr.addstr(line_current, 1, "{}".format(album) )
 			elif option == "Get total albums length":
 				time_tot = music_reports.get_total_albums_length(albums)
-				stdscr.addstr(3+options.length(), 1, "total time = {}".format(time_tot) )
+				stdscr.addstr(line_current, 1, "total time = {}".format(time_tot) )
 			elif option == "Get genre stats":
 #get_genre_stats(albums)
 				pass
@@ -167,8 +171,8 @@ def menu(stdscr, albums):
 			elif option == "Get last oldest of genre":
 				pass
 			elif option == "Get albums by genre":
-#album = get_albums_by_genre(albums, genre)
-				pass
+				album = music_reports.get_albums_by_genre(albums, options.property_value())
+				stdscr.addstr(line_current, 1, "{}".format(album) )
 		elif (c==curses.KEY_ENTER or c==10) and options.is_exit():
 			run = False
 
