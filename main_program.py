@@ -39,7 +39,7 @@ class Options:
 			line_no += 1
 		#
 
-		# bold the whch's option;
+		# bold the  current  option;
 		line_no = first_line + self.current
 		if type(self.states[self.current]) == list:
 			opts = self.states[self.current]
@@ -128,12 +128,11 @@ def menu(stdscr, albums):
 	options.add("Get total albums length", None)
 	options.add("Get genre stats", None)
 	options.add("Get last oldest", None)
-	options.add("Get last oldest of genre", None)
-	options.add("Get last oldest of genre", None)
 
 	genres = music_reports.get_genres(albums)
 	if len(genres) > 0:
 		options.add("Get albums by genre", genres)
+		options.add("Get oldest of genre", genres)
 
 	while run:
 		options.scr_print(stdscr)
@@ -154,25 +153,25 @@ def menu(stdscr, albums):
 			stdscr.move(line_current, 0)
 			stdscr.clrtoeol() # erase from cursor to the end of the line;
 
-
 			if option == "Get longest album":
 				album = music_reports.get_longest_album(albums)
 				stdscr.addstr(line_current, 1, "{}".format(album) )
 			elif option == "Get total albums length":
 				time_tot = music_reports.get_total_albums_length(albums)
+				time_tot = music_reports.time_minutes_to_str(time_tot)
 				stdscr.addstr(line_current, 1, "total time = {}".format(time_tot) )
 			elif option == "Get genre stats":
-#get_genre_stats(albums)
-				pass
+				genres = music_reports.get_genre_stats(albums)
+				stdscr.addstr(line_current, 1, "{}".format(genres) )
 			elif option == "Get last oldest":
 				pass
-			elif option == "Get last oldest of genre":
-				pass
-			elif option == "Get last oldest of genre":
-				pass
-			elif option == "Get albums by genre":
-				album = music_reports.get_albums_by_genre(albums, options.property_value())
+			elif option == "Get oldest of genre":
+				album = music_reports.get_last_oldest_of_genre(albums, options.property_value() )
 				stdscr.addstr(line_current, 1, "{}".format(album) )
+			elif option == "Get albums by genre":
+				album = music_reports.get_albums_by_genre(albums, options.property_value() )
+				stdscr.addstr(line_current, 1, "{}".format(album) )
+
 		elif (c==curses.KEY_ENTER or c==10) and options.is_exit():
 			run = False
 
