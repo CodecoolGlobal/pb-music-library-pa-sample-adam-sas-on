@@ -8,7 +8,12 @@ def get_albums_by_genre(albums, genre):
     :returns: all albums of given genre
     :rtype: list
     """
-    pass
+    genres = []
+    for album in albums:
+        if album[3] == genre:
+            genres.append(album)
+
+    return genres
 #
 
 def get_longest_album(albums):
