@@ -97,6 +97,14 @@ class Options:
 	def length(self):
 		return len(self.options)
 	#
+	def property_value(self):
+		if type(self.states[self.current]) != list:
+			return None
+
+		opts = self.states[self.current]
+		index = self.indexes[self.current]
+		return opts[index]
+	#
 #
 
 def scroll_list(stdscr, lists):
@@ -159,7 +167,7 @@ def menu(stdscr, albums):
 			elif option == "Get last oldest of genre":
 				pass
 			elif option == "Get albums by genre":
-#get_albums_by_genre(albums, genre)
+#album = get_albums_by_genre(albums, genre)
 				pass
 		elif (c==curses.KEY_ENTER or c==10) and options.is_exit():
 			run = False
