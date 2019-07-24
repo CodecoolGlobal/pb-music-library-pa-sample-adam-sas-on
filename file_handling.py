@@ -12,7 +12,7 @@ def import_data(filename='albums_data.txt'):
     """
     with open(filename, "r") as file:
         lines = file.readlines()
-    table = [element.replace("\n", "").split(",") for element in lines]
+    table = [element.replace("\n", "").split(",") for element in lines] # for more splits: re.split(r'[ ,|;"]+', l)
     return table
 #
 
