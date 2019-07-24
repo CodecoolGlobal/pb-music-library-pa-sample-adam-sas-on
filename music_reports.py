@@ -8,7 +8,8 @@ def get_albums_by_genre(albums, genre):
     :returns: all albums of given genre
     :rtype: list
     """
-
+    pass
+#
 
 def get_longest_album(albums):
     """
@@ -19,7 +20,8 @@ def get_longest_album(albums):
     :returns: longest album
     :rtype: list
     """
-
+    pass
+#
 
 def get_total_albums_length(albums):
     """
@@ -29,3 +31,6 @@ def get_total_albums_length(albums):
     :returns: total albums' length in minutes
     :rtype: float
     """
+    pass
+#
+
