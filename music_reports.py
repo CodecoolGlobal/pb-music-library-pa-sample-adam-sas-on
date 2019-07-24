@@ -63,6 +63,11 @@ def get_total_albums_length(albums):
     :returns: total albums' length in minutes
     :rtype: float
     """
-    pass
+    time_tot = 0.0
+    for album in albums:
+        length = time_str_to_minutes(album[4])
+        time_tot += length
+
+    return time_tot
 #
 
