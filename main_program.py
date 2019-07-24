@@ -1,6 +1,8 @@
 """
 The main program should use functions from music_reports and display modules
 """
+import file_handling.py
+import music_reports.py
 
 def main():
     """
@@ -16,3 +18,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
