@@ -11,6 +11,50 @@ def scroll_list(stdscr, lists):
 #
 
 
+def print_options(stdscr, options, whch, first_line=2):
+	i = first_line
+	bold_line = -1
+	bold_element = None
+
+	for option,elements in options.items():
+		if elements[0] == False:
+			continue
+		opts = elements[2]
+		index = elements[1]
+
+		if i == whch + first_line:
+			bold_element = option
+			bold_line = i
+
+		if index < len(opts):
+			stdscr.addstr(i, 0, "- {}: {}".format(option, opts[index]) )
+		else:
+			stdscr.addstr(i, 0, "- {}".format(option) )
+		i += 1
+
+	if bold_line >= first_line:
+		elements = options[bold_element]
+		opts = elements[2]
+		index = elements[1]
+
+		if index < len(opts):
+			stdscr.addstr(bold_line, 0, "- {}: {}".format(bold_element, opts[index]), curses.A_BOLD)
+		else:
+			stdscr.addstr(bold_line, 0, "- {}".format(bold_element), curses.A_BOLD)
+#
+
+def switch_element_option(options, whch, increment):
+	i = 0
+	element = None
+	for option,elements in options.items():
+		if elements[0] == False:
+			continue
+
+		
+		i += 1
+
+#
+
 def menu(stdscr, albums):
 	stdscr = curses.initscr()
 
@@ -23,34 +67,23 @@ def menu(stdscr, albums):
 	cmd = 0
 
 	stdscr.addstr(0, 4, "Music library.")
-	options = ["Get longest album",
-				"Get total albums length",
-				"Get genre stats",
-				"Get last oldest",
-				"Get last oldest of genre",
-				"Get albums by genre"]
-#TEST_QUESTION
+	options = {"Get longest album": [True, 0, []],
+				"Get total albums length": [True, 0, []],
+				"Get genre stats": [True, 0, []],
+				"Get last oldest": [True, 0, []],
+				"Get last oldest of genre": [True, 0, []],
+				"Get albums by genre":[True, 0, []],
+				"Exit":[True, 0, []]}
+# TEST_QUESTIONS = 5
 
 	genres = music_reports.get_genres(albums)
-	i4genres = 0
+	if len(genres) > 0:
+		options["Get albums by genre"] = [True, 0, genres]
+	else:
+		options["Get albums by genre"] = [False, 0, []]
 
 	while run:
-		line_no = 2
-		if len(genres) > 0:
-			stdscr.addstr(line_no, 0, " {}: {}".format(options[0], genres[i4genres]) )
-			line_no += 1
-
-		i = 1
-		while i < len(options): # print all questions in the same way;
-			stdscr.addstr(line_no, 0, "{}) {}".format(i+1, options[i]) )
-			i += 1
-			line_no += 1
-		stdscr.addstr(i + 2, 0, " Exit")
-
-		if cmd == len(options):
-			stdscr.addstr(len(options) + 2, 0, " Exit", curses.A_BOLD)
-		else:
-			stdscr.addstr(cmd + 2, 0, "{}) {}".format(cmd + 1, options[cmd]), curses.A_BOLD)
+		print_options(stdscr, options, cmd)
 
 
 		c=stdscr.getch()
@@ -59,9 +92,9 @@ def menu(stdscr, albums):
 			cmd -= 1
 		elif c==curses.KEY_DOWN and cmd < len(options):
 			cmd += 1
-		elif c==curses.KEY_RIGHT and i4genres < len(genres)-1 and cmd == 0:
+		elif c==curses.KEY_RIGHT and i4genres < len(genres)-1 and cmd == TEST_QUESTIONS:
 			i4genres += 1
-		elif c==curses.KEY_RIGHT and i4genres > 0 and cmd == 0:
+		elif c==curses.KEY_LEFT and i4genres > 0 and cmd == TEST_QUESTIONS:
 			i4genres -= 1
 		elif (c==curses.KEY_ENTER or c==10) and cmd == 0:
 			pass
