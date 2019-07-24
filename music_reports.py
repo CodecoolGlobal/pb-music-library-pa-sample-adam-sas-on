@@ -96,7 +96,22 @@ def get_last_oldest(albums):
 #
 
 def get_last_oldest_of_genre(albums, genre):
-    album = []
+    oldest = []
+    year = False
+
+    for album in albums:
+        if len(album) < 4 or album[3] != genre:
+            continue
+
+        try:
+            year2 = int(album[2])
+        except:
+            continue
+
+        if year2 < year or year == False:
+            oldest = album
+            year = year2
+    return oldest
 #
 
 #/ - - - - - -
