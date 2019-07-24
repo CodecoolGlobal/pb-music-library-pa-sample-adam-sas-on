@@ -1,3 +1,22 @@
+def time_str_to_minutes(timestr):
+    if ":" not in timestr or len(timestr) > 0:
+        return 0.0
+
+    tm = timestr.split(":", 2)
+    try:
+        tm[0] = int(tm[0])
+    except ValueError:
+        tm[0] = 0
+
+    try:
+        tm[1] = int(tm[1])
+    except ValueError:
+        tm[1] = 0
+
+    tm[0] = float(tm[0]) + float(tm[1])/60.0
+    return tm[0]
+#
+
 def get_albums_by_genre(albums, genre):
     """
     Get albums by genre
@@ -25,7 +44,15 @@ def get_longest_album(albums):
     :returns: longest album
     :rtype: list
     """
-    pass
+    longest = []
+    max_len = 0
+    for album in albums:
+        length = time_str_to_minutes(album[4])
+        if length > max_len:
+            longest = album
+            max_len = length
+
+    return longest
 #
 
 def get_total_albums_length(albums):
