@@ -71,3 +71,16 @@ def get_total_albums_length(albums):
     return time_tot
 #
 
+def get_genre_stats():
+    pass
+#
+
+
+def get_last_oldest():
+    pass
+#
+
+def get_last_oldest_of_genre():
+    pass
+#
+
