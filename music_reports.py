@@ -1,5 +1,5 @@
 def time_str_to_minutes(timestr):
-    if ":" not in timestr or len(timestr) > 0:
+    if ":" not in timestr or len(timestr) < 1:
         return 0.0
 
     tm = timestr.split(":", 2)
