@@ -87,6 +87,13 @@ def get_last_oldest_of_genre(albums):
 #/ - - - - - -
 
 def get_genres(albums):
-    pass
+    genres_dict = {}
+    for album in albums:
+        if len(album) < 4:
+            continue
+
+        genres_dict[album[3]] = 1
+
+    return list(genres_dict.keys())
 #
 
