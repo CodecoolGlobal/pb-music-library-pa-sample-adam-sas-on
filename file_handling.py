@@ -30,8 +30,7 @@ def export_data(albums, filename='albums_data.txt', mode='a'):
         'Wrong write mode'
     """
     if mode not in ("w", "a"): # maybe: ("r+", "w", "w+", "a", "a+");
-        print("Wrong write mode")
-        raise ValueError
+        raise ValueError("Wrong write mode")
 
     with open(filename, mode) as file:
         for record in albums:
