@@ -29,6 +29,9 @@ def export_data(albums, filename='albums_data.txt', mode='a'):
     :raises ValueError: if mode other than 'w' or 'a' was given. Error message:
         'Wrong write mode'
     """
+    if mode not in ("r+", "w", "w+", "a", "a+"):
+        raise OSError
+
     with open(filename, mode) as file:
         for record in albums:
             row = ','.join(record)
