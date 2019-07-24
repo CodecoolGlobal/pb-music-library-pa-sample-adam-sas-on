@@ -1,8 +1,8 @@
 """
 The main program should use functions from music_reports and display modules
 """
-import file_handling.py
-import music_reports.py
+import file_handling
+import music_reports
 
 def main():
     """
